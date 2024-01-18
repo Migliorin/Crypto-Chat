@@ -96,9 +96,9 @@ class ControlServer():
 
     
         
-    def get_msg(self,receiver,token):
+    def get_msg(self,receiver,token,who):
         #list_users = list(self.keys_authentication['users'].keys())
-        verify_receiver = self._verify_user(receiver)
+        verify_receiver = self._verify_send_receive(receiver,who)
         if(not verify_receiver):
             return msg_invalid_user
         else:
@@ -107,11 +107,16 @@ class ControlServer():
                 return msg_finger_print
             else:
                 mesage = self.keys_authentication['users'][receiver]['mesages']
-                if(len(mesage) > 0):
-                    aux = mesage.copy()
-                    self.keys_authentication['users'][receiver]['mesages'] = {}
+                if(who in list(mesage.keys())):
+                    aux = self.keys_authentication['users'][receiver]['mesages'][who].copy()
+                    self.keys_authentication['users'][receiver]['mesages'][who] = []
                     self._save()
                     return {"status" : True,"mesages":aux}
+                # if(len(mesage) > 0):
+                #     aux = mesage.copy()
+                #     self.keys_authentication['users'][receiver]['mesages'] = {}
+                #     self._save()
+                #     return {"status" : True,"mesages":aux}
                 else:
                     return {"status" : "No mesages"}
                 
