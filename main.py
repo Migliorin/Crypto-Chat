@@ -38,9 +38,9 @@ def connection(item:PublicKey):
 def connection(item:Mesage):
     return server.send_msg(item.sender,item.receiver,item.msg,item.token)
 
-@app.get("/get_msg/")
-def connection(item:GetSomething):
-    return server.get_msg(item.receiver,item.token)
+@app.get("/get_msg/{who}")
+def connection(item:GetSomething,who:str):
+    return server.get_msg(item.receiver,item.token,who)
 
 @app.get("/get_public_key/{who}")
 def connection(item:GetSomething,who:str):
